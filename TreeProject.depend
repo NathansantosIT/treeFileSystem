@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1551030979 source:/home/nathan/Desktop/Codes/c_codes/TreeProject/main.c
+	<stdio.h>
+	<stdlib.h>
+
