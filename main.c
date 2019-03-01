@@ -28,6 +28,13 @@ void printDir(struct dir* root){
     }
 }
 
+void deleteDir(struct dir* node){
+  if(node->left) deleteDir(node->left);
+  if(node->right) deleteDir(node->right);
+  printf("Deleting node: %d\n", node->data);
+  free(node);
+}
+
 struct dir* insert(struct dir* dir, int data){
 
     if (dir == NULL) {
@@ -48,7 +55,6 @@ struct dir* searchDir(struct dir* dir, int data){
     while(dir->data != data){
 	
       if(dir != NULL) {
-         printf("\n%d \n",dir->data);
 			
          //go to left tree
          if(dir->data < data){
@@ -79,24 +85,10 @@ bool isNum(char* string){
      return true;
 }
 
-int main()
-{
-    struct dir *root = NULL;
-    struct dir *node = NULL;
-    root = insert(root,50);
-    insert(root,80);
-    insert(root,90);
-    insert(root,70);
-    insert(root,10);
-    insert(root,120);
-    insert(root,40);
+int openConsole(struct dir *root,struct dir *node){
 
-    printDir(root);
-
-    printf("\n\n\n");
-
-    char command[256];
-    int i = 1;
+	char command[256];
+  int i = 1;
 
     while(i != 0){
         printf("Type your command:\n");
@@ -128,8 +120,39 @@ int main()
                  if (node == NULL) printf("Ué?\n");
                  else printf("Achei o %d\n",node->data);
              }
+        } else if(strcmp(command, "delete\n") == 0){
+            printf("Type the number:\n");
+            fgets(command, sizeof(command), stdin);
+            if(!isNum(command)){
+              printf("Only numbers here!\n");
+            } else {
+              int num = atoi(command);
+              deleteDir(searchDir(root,num));
+              printf("Nó e filhos deletados\n");
+            }
         } else printf("Comando não encontrado\n");
     }
-    
-    return 0;
+
+    return i;
+}
+
+
+int main()
+{
+    struct dir *root = NULL;
+    struct dir *node = NULL;
+    root = insert(root,50);
+    insert(root,80);
+    insert(root,90);
+    insert(root,70);
+    insert(root,10);
+    insert(root,120);
+    insert(root,40);
+
+    printDir(root);
+
+    printf("\n\n\n");
+
+    return openConsole(root,node);
+
 }
